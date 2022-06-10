@@ -2,7 +2,9 @@ import React from 'react'
 import { View,Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import Welcome from './pages/Welcome'
+import MemberSign from './pages/MemberSign'
+import MemberDetails from './pages/MemberDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,9 +14,19 @@ function Router() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="First Page" component={First} />
-        <Stack.Screen name="Second Page" component={Second} />
+      <Stack.Navigator screenOptions={{headerShown:false}}>
+     <Stack.Screen 
+     name="WelcomeScreen" 
+     component={Welcome} />
+     
+     <Stack.Screen 
+     name="MemberSignScreen" 
+     component={MemberSign} 
+     />
+      <Stack.Screen 
+     name="MemberDetailsScreen" 
+     component={MemberDetails} 
+     />
       </Stack.Navigator>
     </NavigationContainer>
   )
