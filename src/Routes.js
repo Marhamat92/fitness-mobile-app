@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Welcome from './pages/Welcome'
 import MemberSign from './pages/MemberSign'
 import MemberDetails from './pages/MemberDetails';
+import UpdateMember from './pages/UpdateMember';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,10 @@ function Router() {
       <Stack.Screen 
      name="MemberDetailsScreen" 
      component={MemberDetails} 
+     />
+      <Stack.Screen 
+     name="MemberUpdateScreen" 
+     component={UpdateMember} 
      />
       </Stack.Navigator>
     </NavigationContainer>
