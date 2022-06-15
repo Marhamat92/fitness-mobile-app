@@ -2,41 +2,41 @@ import React, {useState, useEffect} from 'react';
 import {SafeAreaView, Text, View, Alert, FlatList} from 'react-native';
 import tw from 'twrnc';
 import axios from 'axios';
+import {useFocusEffect} from '@react-navigation/native';
 
 const memberList = 'http://192.168.1.135:8088/member/member/get/list';
 
-function MemberDetails({route,navigation}) {
+function MemberDetails({route, navigation}) {
   const [allUsers, setAllUsers] = useState([]);
 
-
-
-  const onDeleteUser = (id) => {  //delete user by id
+  const onDeleteUser = id => {
+    //delete user by id
     console.log(id);
-    axios.delete(`http://192.168.1.135:8088/member/member/delete?member_id=${id}`).then(res => {
-      console.log(res);
-      Alert.alert("MacFit+", "Member deleted successfully");
-      setAllUsers(allUsers.filter(user => user.id !== id));
-    }
-    ).catch(err => {
-      console.log(err);
-      Alert.alert("MacFit+", "Member deletion failed");
-    }
-    );
-  }
-
-  
- 
-
-  useEffect(() => {
     axios
-      .get(memberList)
+      .delete(`http://192.168.1.135:8088/member/member/delete?member_id=${id}`)
       .then(res => {
-        setAllUsers(res.data);
+        console.log(res);
+        Alert.alert('MacFit+', 'Member deleted successfully');
+        setAllUsers(allUsers.filter(user => user.id !== id));
       })
       .catch(err => {
         console.log(err);
+        Alert.alert('MacFit+', 'Member deletion failed');
       });
-  }, []);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      axios
+        .get(memberList)
+        .then(res => {
+          setAllUsers(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }, [navigation]),
+  );
 
   return (
     <SafeAreaView style={tw`flex justify-center h-full `}>
@@ -73,12 +73,22 @@ function MemberDetails({route,navigation}) {
                 </Text>
               </View>
               <View style={tw`flex-col`}>
-              <View style={tw` bg-red-500 py-2 px-2 mr-1`}>
-                <Text style={tw`text-white font-bold`} onPress={()=>onDeleteUser(item.id)}>DELETE</Text>
-              </View>
-              <View style={tw` bg-green-500 py-2 px-2 mr-1`}>
-                <Text style={tw`text-white font-bold text-center`} onPress={()=>navigation.navigate("MemberUpdateScreen")}>EDIT</Text>
-              </View>
+                <View style={tw` bg-red-500 py-2 px-2 mr-1`}>
+                  <Text
+                    style={tw`text-white font-bold`}
+                    onPress={() => onDeleteUser(item.id)}>
+                    DELETE
+                  </Text>
+                </View>
+                <View style={tw` bg-green-500 py-2 px-2 mr-1`}>
+                  <Text
+                    style={tw`text-white font-bold text-center`}
+                    onPress={() =>
+                      navigation.navigate('MemberUpdateScreen', {id: item.id})
+                    }>
+                    EDIT
+                  </Text>
+                </View>
               </View>
             </View>
           );

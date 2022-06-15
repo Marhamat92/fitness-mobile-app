@@ -7,7 +7,7 @@ function Input({label, value, onChangeText, placeholder, secureTextEntry}) {
     <View >
       <Text style={tw`ml-2 mb-1 mt-2 text-black`}>{label}</Text>
       <View style={tw`border mx-2  rounded-md`}>
-        <TextInput placeholder={placeholder} onChangeText={onChangeText} />
+        <TextInput placeholder={placeholder} onChangeText={onChangeText} value={value}/>
       </View>
     </View>
   );
